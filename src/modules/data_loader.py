@@ -7,11 +7,11 @@ import pyarrow.parquet as pq
 from pydantic import BaseModel
 
 config = {
-    "fund_codes": "app/data/fund_codes.parquet",
-    "fund_prices": "app/data/fund_prices.parquet",
-    "ff_daily": "app/data/ff_daily.parquet",
-    "ff_monthly": "app/data/ff_monthly.parquet",
-    "sp500": "app/data/sp500.csv",
+    "fund_codes": "src/data/fund_codes.parquet",
+    "fund_prices": "src/data/fund_prices.parquet",
+    "ff_daily": "src/data/ff_daily.parquet",
+    "ff_monthly": "src/data/ff_monthly.parquet",
+    "sp500": "src/data/sp500.csv",
 }
 
 
