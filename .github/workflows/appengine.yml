@@ -1,5 +1,5 @@
 name: Google App Engine Deployment
-# For this to work, you must verify the App Engine Admin API is enabled.
+
 on: [push]
 
 env:
@@ -10,9 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - uses: google-github-actions/setup-gcloud@main
+      with:
+        project_id: ${{ secrets.GCP_PROJECT }}
+        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     - name: Set up Python 3.9
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Install dependencies
@@ -28,6 +32,8 @@ jobs:
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY  }}
-      with:
-        args: app deploy ./app.yaml 
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS   }}
+      run:
+        gcloud app deploy ./app.yaml \
+          --quiet \
+          --project="${{ secrets.APPENGINE_DEPLOY_PROJECT_ID }}"
