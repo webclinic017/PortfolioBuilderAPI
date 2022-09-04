@@ -9,7 +9,7 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/", tags=["Backtest Portfolio"])
 def backtest_portfolio(item: schemas.portfolio):
     portfolio = item.dict()["portfolio"]
     fund_codes = []

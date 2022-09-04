@@ -1,0 +1,28 @@
+name: Integration tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  working-directory: ./aurora/backend
+
+jobs:
+  Pytest:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.7
+    - name: Upgrade pip
+      run: pip install --upgrade pip
+    - name: Install Pytest
+      run: pip install -r aurora/backend/requirements.txt
+    - name: Run pytest 
+      run: pytest -p no:cacheprovider 
+      working-directory: ${{env.working-directory}}
+    - name: Delete cache
+      run: find . -type d -name __pycache__ -exec rm -r {} \+

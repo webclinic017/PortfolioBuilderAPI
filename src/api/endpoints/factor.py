@@ -6,7 +6,7 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/", tags=["Factor Analysis"])
 def factor_regression(item: schemas.factor):
 
     fund_codes = item.dict()["funds"]
@@ -43,7 +43,7 @@ def factor_regression(item: schemas.factor):
     return output
 
 
-@router.post("/rolling/")
+@router.post("/rolling/", tags=["Factor Analysis"])
 def rolling_factor_regression(item: schemas.factor):
 
     fund_codes = item.dict()["funds"]

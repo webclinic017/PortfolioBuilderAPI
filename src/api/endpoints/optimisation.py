@@ -7,7 +7,7 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/", tags=["Portfolio Optimisation"])
 def efficient_frontier(item: schemas.optimisation):
 
     fund_codes = item.dict()["funds"]
