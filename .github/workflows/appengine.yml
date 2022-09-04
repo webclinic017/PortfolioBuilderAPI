@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Retrieving the repo
+
         uses: actions/checkout@v2
       - name: Set up Python 3.9
         uses: actions/setup-python@v1
@@ -27,7 +27,5 @@ jobs:
           PROJECT_ID: ${{ secrets.GCP_PROJECT }}
           APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS  }}
         with:
-          args: info
-      with:
-        entrypoint: gcloud
-        args: app deploy ./app.yaml --quiet
+          entrypoint: gcloud
+          args: app deploy ./app.yaml --quiet
