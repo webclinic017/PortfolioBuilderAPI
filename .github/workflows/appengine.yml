@@ -31,15 +31,13 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY  }}'
 
-    - id: 'deploy'
-      name: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v0'
-      with:
-        deliverables: 'example-app/app.yaml'
-        project_id: '${{ secrets.GCP_PROJECT }}'
+    - name: Run deployment
+      if: success()
+      run:
+        gcloud app deploy ./app.yaml \
+          --quiet \
+          --project="${{ secrets.APPENGINE_DEPLOY_PROJECT_ID }}"
 
-    - name: 'show output'
-      run: 'echo ${{ steps.deploy.outputs.url }}'
 
 
 
