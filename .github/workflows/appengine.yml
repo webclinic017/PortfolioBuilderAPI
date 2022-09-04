@@ -28,6 +28,6 @@ jobs:
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-        APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS  }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY  }}
       with:
         args: app deploy ./app.yaml 
