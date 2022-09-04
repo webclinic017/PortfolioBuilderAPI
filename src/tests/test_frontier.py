@@ -29,9 +29,11 @@ def test_frontier_three_funds():
             "num_portfolios": 4,
         },
     )
-    assert response.json()["frontier"][0]["returns"] == 0.074789
-    assert response.json()["frontier"][0]["std"] == 0.176781
+    assert response.json()["frontier"][0]["returns"] == pytest.approx(0.074789)
+    assert response.json()["frontier"][0]["std"] == pytest.approx(0.176781)
     assert response.json()["frontier"][0]["portfolio_weights"]["AMD"] == 1
-    assert response.json()["frontier"][1]["returns"] == 0.057992
-    assert response.json()["frontier"][1]["std"] == 0.126705
-    assert response.json()["frontier"][1]["portfolio_weights"]["AAPL"] == 0.345962
+    assert response.json()["frontier"][1]["returns"] == pytest.approx(0.057992)
+    assert response.json()["frontier"][1]["std"] == pytest.approx(0.126705)
+    assert response.json()["frontier"][1]["portfolio_weights"]["AAPL"] == pytest.approx(
+        0.345962
+    )
