@@ -1,10 +1,11 @@
 import json
 
+from fastapi import APIRouter
+
 from src import schemas
 from src.modules.data_loader import DataLoader
 from src.modules.metrics import Metrics
 from src.modules.portfolio import Portfolio
-from fastapi import APIRouter
 
 router = APIRouter()
 

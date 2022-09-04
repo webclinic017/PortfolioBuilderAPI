@@ -1,5 +1,6 @@
-from src.api.endpoints import backtest, factor, funds, optimisation
 from fastapi import APIRouter
+
+from src.api.endpoints import backtest, factor, funds, optimisation
 
 api_router = APIRouter()
 

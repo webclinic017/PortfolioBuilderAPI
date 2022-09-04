@@ -1,7 +1,8 @@
+from fastapi import APIRouter
+
 from src import schemas
 from src.modules.data_loader import DataLoader
 from src.modules.factor_analysis import FactorAnalysis
-from fastapi import APIRouter
 
 router = APIRouter()
 
