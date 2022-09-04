@@ -29,10 +29,6 @@ jobs:
       working-directory: ${{env.working-directory}}
     - name: Run deployment
       if: success()
-      uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS   }}
       run:
         gcloud app deploy ./app.yaml \
           --quiet \
