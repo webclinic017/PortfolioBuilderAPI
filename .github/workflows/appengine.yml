@@ -7,14 +7,13 @@ env:
 
 jobs:
   Deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - uses: google-github-actions/auth@v0
-      with:
-
-        credentials_json: ${{ secrets.GCP_SA_KEY  }}
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
@@ -27,9 +26,20 @@ jobs:
     - name: Test with pytest
       run: pytest -p no:cacheprovider 
       working-directory: ${{env.working-directory}}
-    - name: Run deployment
-      if: success()
-      run:
-        gcloud app deploy ./app.yaml \
-          --quiet \
-          --project="${{ secrets.APPENGINE_DEPLOY_PROJECT_ID }}"
+
+    - uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY  }}'
+
+    - id: 'deploy'
+      name: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v0'
+      with:
+        deliverables: 'example-app/app.yaml'
+        project_id: '${{ secrets.GCP_PROJECT }}'
+
+    - name: 'show output'
+      run: 'echo ${{ steps.deploy.outputs.url }}'
+
+
+
