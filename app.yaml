@@ -10,3 +10,15 @@ automatic_scaling:
   target_cpu_utilization: 0.95
   min_pending_latency: 1000ms
 service: default
+runtime: python39
+entrypoint: gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker 
+
+instance_class: F1
+automatic_scaling:
+  max_instances: 1
+  min_instances: 0
+  max_idle_instances: 1
+  min_idle_instances: 1
+  target_cpu_utilization: 0.95
+  min_pending_latency: 1000ms
+service: aurora
