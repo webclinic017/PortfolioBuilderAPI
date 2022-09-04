@@ -1,8 +1,9 @@
 import numpy as np
+from fastapi import APIRouter
+
 from src import schemas
 from src.modules.data_loader import DataLoader
 from src.modules.optimisation import PortfolioOptimisation
-from fastapi import APIRouter
 
 router = APIRouter()
 

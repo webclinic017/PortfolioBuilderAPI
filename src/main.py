@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from src.api.api import api_router
 
 tags_metadata = [
@@ -17,7 +18,7 @@ tags_metadata = [
     {
         "name": "Factor Analysis",
         "description": "Run regression analysis using factor models",
-    }
+    },
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)

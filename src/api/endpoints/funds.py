@@ -1,5 +1,6 @@
-from src.modules.data_loader import DataLoader
 from fastapi import APIRouter
+
+from src.modules.data_loader import DataLoader
 
 router = APIRouter()
 
