@@ -37,6 +37,7 @@ jobs:
         gcloud app deploy ./app.yaml \
           --quiet \
           --project="${{ secrets.APPENGINE_DEPLOY_PROJECT_ID }}"
+      working-directory: ${{env.working-directory}}
 
 
 
