@@ -1,20 +1,11 @@
-FROM python:3.8.12-slim
+FROM python:3.9
 
-WORKDIR /usr/src/aurora
-
-# dont write pyc files
-ENV PYTHONDONTWRITEBYTECODE 1
-# dont buffer to stdout/stderr
-ENV PYTHONUNBUFFERED 1
+WORKDIR /aurora
 
 COPY ./requirements.txt requirements.txt
 
-# dependencies
-RUN set -eux \
-    && pip install --upgrade pip setuptools wheel \
-    && pip install -r requirements.txt \
-    && rm -rf /root/.cache/pip
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY ./ /usr/src/aurora
-
-CMD exec uvicorn src.main:app
+COPY ./src /aurora/src
+# 
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
