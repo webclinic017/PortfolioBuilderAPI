@@ -21,8 +21,20 @@ jobs:
       run: pip install --upgrade pip
     - name: Install Pytest
       run: pip install -r requirements.txt
-    - name: Run pytest 
-      run: pytest -p no:cacheprovider --cov 
+    - name: Run pytests
+      run: pytest -p no:cacheprovider
+      working-directory: ${{env.working-directory}}
+    - name: Generate coverage report
+      run: pytest --cov=./ --cov-report=xml
       working-directory: ${{env.working-directory}}
     - name: Upload coverage reports to Codecov
-      run: curl -Os https://uploader.codecov.io/latest/linux/codecov chmod +x codecov ./codecov
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./coverage/reports/
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        files: ./coverage1.xml,./coverage2.xml
+        flags: unittests
+        name: codecov-umbrella
+        path_to_write_report: ./coverage/codecov_report.txt
+        verbose: true
