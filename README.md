@@ -1,12 +1,23 @@
 # Aurora
 
-Portfolio Builder API
-
 =======
 
-![example workflow](https://github.com/yeungadrian/Aurora/actions/workflows/python-app.yml/badge.svg)
+<p align="center">
+    Portfolio Builder API
+</p>
+<p align="center">
+<a herf="https://github.com/yeungadrian/PortfolioAnalysis/actions/workflows/python-app.yml"> 
+ <img src="https://github.com/yeungadrian/Aurora/actions/workflows/python-app.yml/badge.svg"/> 
+ </a>
+<a herf="https://github.com/yeungadrian/Aurora/actions/workflows/appengine.yml"> 
+ <img src="https://github.com/yeungadrian/Aurora/actions/workflows/appengine.yml/badge.svg"/> 
+ </a>
+<a href="https://codecov.io/gh/yeungadrian/Aurora" > 
+ <img src="https://codecov.io/gh/yeungadrian/Aurora/branch/main/graph/badge.svg?token=MBBQ5ZQSBX"/> 
+ </a>
+</p>
 
-![example workflow](https://github.com/yeungadrian/Aurora/actions/workflows/appengine.yml/badge.svg)
+
 
 Major Dependencies:
 
