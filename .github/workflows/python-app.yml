@@ -21,6 +21,12 @@ jobs:
       run: pip install --upgrade pip
     - name: Install Pytest
       run: pip install -r requirements.txt
-    - name: Run pytest 
-      run: pytest -p no:cacheprovider 
+    - name: Run pytests
+      run: pytest -p no:cacheprovider
       working-directory: ${{env.working-directory}}
+    - name: Generate coverage report
+      run: pytest --cov=./ --cov-report=xml
+      working-directory: ${{env.working-directory}}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+

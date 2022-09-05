@@ -21,6 +21,7 @@ pyarrow
 pydantic
 pyparsing
 pytest
+pytest-cov
 python-dateutil
 pytz
 regex
