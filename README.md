@@ -13,7 +13,6 @@ Portfolio Analysis API built using FastAPI and hosted on GCP
  </a>
 </p>
 
-
 ## Financial Analysis:
 - Portfolio Backtesting
     - Backtest different asset allocations and compare historical performance
@@ -37,7 +36,7 @@ docker run -d --name aurora -p 8000:8000 aurora
 And view docs at: [localhost:8000/docs](localhost:8000/docs). 
 Becareful using both methods and encountering conflicts over the same port.
 
-![](images\apidocs.JPG)
+![img](images/apidocs.JPG)
 
 ## Technical Features:
 ### Pure python
@@ -49,5 +48,3 @@ Becareful using both methods and encountering conflicts over the same port.
 - CI using [Github Actions](https://github.com/yeungadrian/Aurora/actions)
 ### Continious Deployment
 - CD using [Google Cloud Platform](https://cloud.google.com/appengine/) (free tier)
-
-
