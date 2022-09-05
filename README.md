@@ -22,9 +22,6 @@ Portfolio Analysis API built using FastAPI and hosted on GCP
 - Portfolio Optimisation
     - Generate efficient frontiers to explore risk return trade offs
 
-
-
-
 ## Get Started:
 Get started locally by creating a virtual environment via conda or venv and running:
 ```
@@ -37,20 +34,20 @@ docker build -t aurora .
 docker run -d --name aurora -p 8000:8000 aurora
 ```
 
-And view docs at: localhost:8000/docs. Becareful of using both methods and conflicts over the same port.
+And view docs at: [localhost:8000/docs](localhost:8000/docs). 
+Becareful using both methods and encountering conflicts over the same port.
 
 ![](images\apidocs.JPG)
 
 ## Technical Features:
 ### Pure python
-- Simple to write
 - Uses [FastAPI](https://fastapi.tiangolo.com/)
 ### Automatic Tests
-- Test coverage reports using codecov & pytest
+- Test coverage reports using [codecov](https://about.codecov.io/) & [pytest](https://docs.pytest.org/en/7.1.x/)
 ### Continous Integration
-- Pre-commit
-- CI using Github Actions
+- [Pre-commit](https://pre-commit.com/) for identifying issues before PR
+- CI using [Github Actions](https://github.com/yeungadrian/Aurora/actions)
 ### Continious Deployment
-- CD using Google Cloud Platform (free tier)
+- CD using [Google Cloud Platform](https://cloud.google.com/appengine/) (free tier)
 
 
