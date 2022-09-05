@@ -22,5 +22,7 @@ jobs:
     - name: Install Pytest
       run: pip install -r requirements.txt
     - name: Run pytest 
-      run: pytest -p no:cacheprovider 
+      run: pytest -p no:cacheprovider --cov 
       working-directory: ${{env.working-directory}}
+    - name: Upload coverage reports to Codecov
+      run: curl -Os https://uploader.codecov.io/latest/linux/codecov chmod +x codecov ./codecov
