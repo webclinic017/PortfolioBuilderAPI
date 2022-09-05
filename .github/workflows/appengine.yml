@@ -1,4 +1,4 @@
-name: Google App Engine Deployment
+name: Build
 
 on:
   push:
