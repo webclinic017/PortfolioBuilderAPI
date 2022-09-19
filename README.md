@@ -9,7 +9,7 @@ Portfolio Builder API built using FastAPI and hosted on GCP
  <img src="https://github.com/yeungadrian/Aurora/actions/workflows/appengine.yml/badge.svg"/> 
  </a>
 <a href="https://codecov.io/gh/yeungadrian/Aurora" > 
- <img src="https://codecov.io/gh/yeungadrian/Aurora/branch/main/graph/badge.svg?token=MBBQ5ZQSBX"/> 
+ <img src="https://codecov.io/gh/yeungadrian/PortfolioBuilderAPI/branch/main/graph/badge.svg?token=MBBQ5ZQSBX"/> 
  </a>
 </p>
 
