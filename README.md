@@ -34,17 +34,16 @@ docker run -d --name aurora -p 8000:8000 aurora
 ```
 
 And view docs at: [localhost:8000/docs](localhost:8000/docs). 
-Becareful using both methods and encountering conflicts over the same port.
+Be careful using both methods and encountering conflicts over the same port.
 
-![img](images/apidocs.JPG)
+![img](images/docs.JPG)
 
 ## Technical Features:
 ### Pure python
 - Uses [FastAPI](https://fastapi.tiangolo.com/)
 ### Automatic Tests
 - Test coverage reports using [codecov](https://about.codecov.io/) & [pytest](https://docs.pytest.org/en/7.1.x/)
-### Continous Integration
+### Continous Integration /Continious Deployment
 - [Pre-commit](https://pre-commit.com/) for identifying issues before PR
-- CI using [Github Actions](https://github.com/yeungadrian/Aurora/actions)
-### Continious Deployment
+- CI/CD using [Github Actions](https://github.com/yeungadrian/Aurora/actions)
 - CD using [Google Cloud Platform](https://cloud.google.com/appengine/) (free tier)
