@@ -59,7 +59,15 @@ def test_rolling_regression():
         },
     )
     assert response.json()[0]["fund_code"] == "AAPL"
-    assert response.json()[0]["params"] ["Intercept"]["2019-12-31"]== pytest.approx(0.0158573968)
-    assert response.json()[0]["params"] ["MktRF"]["2019-12-31"]== pytest.approx(1.7490203081)
-    assert response.json()[0]["params"] ["SMB"]["2019-12-31"]== pytest.approx(-1.4669490872)
-    assert response.json()[0]["params"] ["HML"]["2019-12-31"]== pytest.approx(0.4853368407)
+    assert response.json()[0]["params"]["Intercept"]["2019-12-31"] == pytest.approx(
+        0.0158573968
+    )
+    assert response.json()[0]["params"]["MktRF"]["2019-12-31"] == pytest.approx(
+        1.7490203081
+    )
+    assert response.json()[0]["params"]["SMB"]["2019-12-31"] == pytest.approx(
+        -1.4669490872
+    )
+    assert response.json()[0]["params"]["HML"]["2019-12-31"] == pytest.approx(
+        0.4853368407
+    )
