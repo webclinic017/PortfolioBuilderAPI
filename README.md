@@ -36,7 +36,7 @@ docker run -d --name aurora -p 8000:8000 aurora
 And view docs at: [localhost:8000/docs](localhost:8000/docs). 
 Be careful using both methods and encountering conflicts over the same port.
 
-![img](images/docs.JPG)
+![img](images/docs.PNG)
 
 ## Technical Features:
 ### Pure python
