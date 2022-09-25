@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from fastapi import APIRouter
 
 from src import schemas
@@ -8,28 +10,33 @@ router = APIRouter()
 
 
 @router.post("/", tags=["Factor Analysis"])
-def factor_regression(item: schemas.factor):
+def factor_regression(item: schemas.factor) -> List[Dict]:
+    """
+    Run factor regression for ticker
 
+    Args:
+        item (schemas.factor): Input request for factor regression
+
+    Returns:
+        List[Dict]: Factor analysis for each ticker
+    """
     fund_codes = item.dict()["funds"]
     start_date = item.dict()["start_date"]
     end_date = item.dict()["end_date"]
     regression_factors = item.dict()["factors"]
     frequency = item.dict()["frequency"].lower()
-
     ff_factors = DataLoader().load_ff_factors(
         regression_factors=regression_factors,
         start_date=start_date,
         end_date=end_date,
         frequency=frequency,
     )
-
     historical_returns = DataLoader().load_historical_returns(
         fund_codes=fund_codes,
         start_date=start_date,
         end_date=end_date,
         frequency=frequency,
     )
-
     external_data = {
         "fund_codes": fund_codes,
         "start_date": start_date,
@@ -38,35 +45,38 @@ def factor_regression(item: schemas.factor):
         "fund_returns": historical_returns,
         "ff_factors": ff_factors,
     }
-
     output = FactorAnalysis(**external_data).regress_funds()
-
     return output
 
 
 @router.post("/rolling/", tags=["Factor Analysis"])
-def rolling_factor_regression(item: schemas.factor):
+def rolling_factor_regression(item: schemas.factor) -> List[Dict]:
+    """
+    Run rolling factor regression for ticker for 12m windows
 
+    Args:
+        item (schemas.factor): Input request for factor regression
+
+    Returns:
+        List[Dict]: Factor analysis for each ticker
+    """
     fund_codes = item.dict()["funds"]
     start_date = item.dict()["start_date"]
     end_date = item.dict()["end_date"]
     regression_factors = item.dict()["factors"]
     frequency = item.dict()["frequency"].lower()
-
     ff_factors = DataLoader().load_ff_factors(
         regression_factors=regression_factors,
         start_date=start_date,
         end_date=end_date,
         frequency=frequency,
     )
-
     historical_returns = DataLoader().load_historical_returns(
         fund_codes=fund_codes,
         start_date=start_date,
         end_date=end_date,
         frequency=frequency,
     )
-
     external_data = {
         "fund_codes": fund_codes,
         "start_date": start_date,
@@ -75,7 +85,5 @@ def rolling_factor_regression(item: schemas.factor):
         "fund_returns": historical_returns,
         "ff_factors": ff_factors,
     }
-
     output = FactorAnalysis(**external_data).rolling_regress_funds(frequency)
-
     return output

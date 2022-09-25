@@ -1,4 +1,5 @@
 import json
+from typing import Dict
 
 from fastapi import APIRouter
 
@@ -11,21 +12,27 @@ router = APIRouter()
 
 
 @router.post("/", tags=["Backtest Portfolio"])
-def backtest_portfolio(item: schemas.portfolio):
+def backtest_portfolio(item: schemas.portfolio) -> Dict:
+    """
+    Backtest portfolio
+
+    Args:
+        item (schemas.portfolio): Input request for backtesting
+
+    Returns:
+        Dict: Backtested portfolio
+    """
     portfolio = item.dict()["portfolio"]
     fund_codes = []
     fund_amount = []
-
     for i in portfolio:
         fund_codes.append(i["fund"])
         fund_amount.append(i["amount"])
-
     historical_data = DataLoader().load_historical_index(
         fund_codes,
         item.dict()["start_date"],
         item.dict()["end_date"],
     )
-
     projection = Portfolio(
         codes=fund_codes,
         amounts=fund_amount,
@@ -35,19 +42,13 @@ def backtest_portfolio(item: schemas.portfolio):
         rebalance=item.dict()["strategy"]["rebalance"],
         rebalance_frequency=item.dict()["strategy"]["rebalance_frequency"],
     ).backtest_strategy()
-
     sp500 = DataLoader().load_benchmark(
         item.dict()["start_date"], item.dict()["end_date"]
     )
-
     projection = projection.merge(sp500[["date", "market"]], how="left", on="date")
-
     metrics = Metrics().metrics(projection)
-
     projection["date"] = projection["date"].dt.strftime("%Y-%m-%d")
-
     result = {}
     result["projection"] = json.loads(projection.to_json(orient="records"))
     result["metrics"] = metrics
-
     return result
