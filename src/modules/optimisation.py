@@ -7,7 +7,18 @@ from pydantic import BaseModel
 from scipy.optimize import minimize
 
 
-def portfolio_std(weights, fund_covariance):
+def portfolio_std(weights: List, fund_covariance: pd.DataFrame) -> float:
+    """
+    Calculate portfolio standard deviation using covariance
+
+    Args:
+        weights (List): fund weights
+        fund_covariance (pd.DataFrame): fund covariance
+
+    Returns:
+        float: portfolio std
+
+    """
     weights = np.array(weights)
     std = np.sqrt(np.dot(weights.T, np.dot(fund_covariance, weights)))
     return std
@@ -99,7 +110,7 @@ class PortfolioOptimisation(BaseModel):
     def efficient_frontier(
         self,
         fund_returns: pd.Series,
-        fund_covariance,
+        fund_covariance: pd.DataFrame,
         portfolios: pd.DataFrame,
         fund_codes: List[str],
         average_risk_free: float,
