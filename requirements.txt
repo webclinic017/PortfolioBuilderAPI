@@ -5,6 +5,8 @@ certifi
 chardet
 click
 fastapi
+fsspec
+gcsfs
 gunicorn
 h11
 idna
