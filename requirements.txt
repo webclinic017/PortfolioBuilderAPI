@@ -9,6 +9,7 @@ fsspec
 gcsfs
 gunicorn
 h11
+httpx
 idna
 iniconfig
 mypy-extensions
