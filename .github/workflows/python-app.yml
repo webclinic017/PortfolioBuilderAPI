@@ -24,6 +24,12 @@ jobs:
       run: pip install --upgrade pip
     - name: Install Pytest
       run: pip install -r requirements.txt
+    - name: Install pre-commit
+      run: |
+        pip install pre-commit
+    - name: Run pre-commit
+      run: |
+        pre-commit run --show-diff-on-failure --color=always --all-files
     - name: Run pytests
       run: pytest -p no:cacheprovider
       working-directory: ${{env.working-directory}}
