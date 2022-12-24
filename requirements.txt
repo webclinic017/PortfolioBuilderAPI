@@ -5,8 +5,11 @@ certifi
 chardet
 click
 fastapi
+fsspec
+gcsfs
 gunicorn
 h11
+httpx
 idna
 iniconfig
 mypy-extensions

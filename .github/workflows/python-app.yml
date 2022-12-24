@@ -15,10 +15,21 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.9.13
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
     - name: Upgrade pip
       run: pip install --upgrade pip
     - name: Install Pytest
       run: pip install -r requirements.txt
+    - name: Install pre-commit
+      run: |
+        pip install pre-commit
+    - name: Run pre-commit
+      run: |
+        pre-commit run --show-diff-on-failure --color=always --all-files
     - name: Run pytests
       run: pytest -p no:cacheprovider
       working-directory: ${{env.working-directory}}

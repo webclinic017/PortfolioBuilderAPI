@@ -4,16 +4,20 @@ from typing import Any, List
 
 import numpy as np
 import pandas as pd
-import pyarrow.parquet as pq
 from pydantic import BaseModel
 
+from .expiry_dict import ExpiringDict
+
 config = {
-    "fund_codes": "src/data/fund_codes.parquet",
-    "fund_prices": "src/data/fund_prices.parquet",
-    "ff_daily": "src/data/ff_daily.parquet",
-    "ff_monthly": "src/data/ff_monthly.parquet",
-    "sp500": "src/data/sp500.csv",
+    "fund_codes": "01_primary/fund_codes.parquet",
+    "fund_prices": "01_primary/fund_prices.parquet",
+    "ff_daily": "01_primary/ff_daily.parquet",
+    "ff_monthly": "01_primary/ff_monthly.parquet",
+    "sp500": "01_primary/sp500.csv",
+    "bucket_name": "aurora-361016-market-data",
 }
+
+cache = ExpiringDict(max_len=20, max_age_seconds=86400)
 
 
 class DataLoader(BaseModel):
@@ -21,6 +25,8 @@ class DataLoader(BaseModel):
     Portfolio builder method to load parquet / csv files
 
     """
+
+    base_path: str = f"gcs://{config['bucket_name']}/"
 
     class Config:
         arbitrary_types_allowed = True
@@ -33,9 +39,10 @@ class DataLoader(BaseModel):
             pd.DataFrame: ticker and long name
 
         """
-        all_funds = (
-            pq.read_table(config["fund_codes"]).to_pandas().to_json(orient="records")
-        )
+        all_funds = cache.get(config["fund_codes"])
+        if all_funds is None:
+            all_funds = pd.read_parquet(f"{self.base_path}{config['fund_codes']}")
+        all_funds = all_funds.to_json(orient="records")
         return json.loads(all_funds)
 
     def slice_data(
@@ -57,7 +64,6 @@ class DataLoader(BaseModel):
         timeseries = timeseries[timeseries["date"] >= start_date]
         timeseries = timeseries[timeseries["date"] <= end_date]
         timeseries = timeseries.sort_values("date").reset_index(drop=True)
-
         return timeseries
 
     def backfill_ts(
@@ -107,7 +113,11 @@ class DataLoader(BaseModel):
         Returns:
             pd.DataFrame
         """
-        benchmark = pd.read_csv(config["sp500"], index_col=None)
+        benchmark = cache.get(config["sp500"])
+        if benchmark is None:
+            benchmark = pd.read_csv(
+                f"{self.base_path}{config['sp500']}", index_col=None
+            )
         benchmark = benchmark.rename(columns={"Date": "date", "Close/Last": "market"})
         benchmark.date = pd.to_datetime(benchmark.date)
         benchmark = benchmark.sort_values(by="date").reset_index(drop=True)
@@ -131,7 +141,11 @@ class DataLoader(BaseModel):
             pd.DataFrame:
         """
         columns = ["date"] + fund_codes
-        timeseries = pq.read_table(config["fund_prices"], columns=columns).to_pandas()
+        timeseries = cache.get(config["fund_prices"])
+        if timeseries is None:
+            timeseries = pd.read_parquet(f"{self.base_path}{config['fund_prices']}")[
+                columns
+            ]
         data = self.backfill_ts(
             timeseries,
             start_date=start_date,
@@ -196,7 +210,10 @@ class DataLoader(BaseModel):
             pd.DataFrame:
         """
         columns = ["date"] + regression_factors + ["RF"]
-        factors = pq.read_table(config[f"ff_{frequency}"], columns=columns).to_pandas()
+
+        factors = pd.read_parquet(f"{self.base_path}{config[f'ff_{frequency}']}")[
+            columns
+        ]
         data = self.backfill_ts(
             factors,
             start_date=start_date,
