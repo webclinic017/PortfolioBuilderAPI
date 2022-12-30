@@ -13,7 +13,7 @@ def test_fund_response_code():
             "start_date": "2018-12-31",
             "end_date": "2020-01-30",
             "portfolio": [
-                {"fund": "ABMD", "amount": 1000},
+                {"fund": "F00000UEXJ", "amount": 1000},
             ],
             "strategy": {"rebalance": True, "rebalance_frequency": "Y"},
         },
@@ -28,8 +28,8 @@ def test_fund_response_backtest_rebalancefalse():
             "start_date": "2018-12-31",
             "end_date": "2020-01-30",
             "portfolio": [
-                {"fund": "ABMD", "amount": 1000},
-                {"fund": "ATVI", "amount": 1000},
+                {"fund": "F00000UEXJ", "amount": 1000},
+                {"fund": "F00000OJMA", "amount": 1000},
             ],
             "strategy": {"rebalance": False, "rebalance_frequency": "Y"},
         },
@@ -39,9 +39,11 @@ def test_fund_response_backtest_rebalancefalse():
     assert response.json()["projection"][0]["date"] == "2018-12-31"
 
     assert response.json()["projection"][-1]["portfolio"] == pytest.approx(
-        1892.9741188256
+        2467.0695460478
     )
-    assert response.json()["projection"][-1]["drawdown"] == pytest.approx(-0.1128140128)
+    assert response.json()["projection"][-1]["drawdown"] == pytest.approx(
+        -0.0294445297
+    )
     assert response.json()["projection"][-1]["date"] == "2020-01-30"
 
 
@@ -52,8 +54,8 @@ def test_fund_response_backtest_rebalancetrue():
             "start_date": "2018-12-31",
             "end_date": "2020-01-30",
             "portfolio": [
-                {"fund": "ABMD", "amount": 1000},
-                {"fund": "ATVI", "amount": 1000},
+                {"fund": "F00000UEXJ", "amount": 1000},
+                {"fund": "F00000OJMA", "amount": 1000},
             ],
             "strategy": {"rebalance": True, "rebalance_frequency": "Y"},
         },
@@ -64,26 +66,28 @@ def test_fund_response_backtest_rebalancetrue():
     assert response.json()["projection"][0]["date"] == "2018-12-31"
 
     assert response.json()["projection"][-1]["portfolio"] == pytest.approx(
-        1919.845369844
+        2465.5738044157
     )
-    assert response.json()["projection"][-1]["drawdown"] == pytest.approx(-0.1002201812)
+    assert response.json()["projection"][-1]["drawdown"] == pytest.approx(
+        -0.0294748496
+    )
     assert response.json()["projection"][-1]["date"] == "2020-01-30"
 
     assert response.json()["metrics"]["metrics"]["cagr"] == pytest.approx(
-        -0.03711558507809487
+        0.21350801373437478
     )
     assert response.json()["metrics"]["metrics"]["std_m"] == pytest.approx(
-        0.0630209788643494
+        0.027241926252289553
     )
-    assert response.json()["metrics"]["metrics"]["std_downside_m"] == pytest.approx(
-        0.03288779681091077
-    )
-    assert response.json()["metrics"]["metrics"]["sharpe_ratio"] == pytest.approx(
-        -0.7476174748016788
-    )
-    assert response.json()["metrics"]["metrics"]["sortino_ratio"] == pytest.approx(
-        -1.4326160353333224
-    )
-    assert response.json()["metrics"]["metrics"]["max_drawdown"] == pytest.approx(
-        0.2666609975147659
-    )
+    assert response.json()["metrics"]["metrics"][
+        "std_downside_m"
+    ] == pytest.approx(0.005651932970421152)
+    assert response.json()["metrics"]["metrics"][
+        "sharpe_ratio"
+    ] == pytest.approx(7.470397351849188)
+    assert response.json()["metrics"]["metrics"][
+        "sortino_ratio"
+    ] == pytest.approx(36.006798877377776)
+    assert response.json()["metrics"]["metrics"][
+        "max_drawdown"
+    ] == pytest.approx(0.06304792760097977)

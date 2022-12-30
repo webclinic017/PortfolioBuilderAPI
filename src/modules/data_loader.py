@@ -41,7 +41,9 @@ class DataLoader(BaseModel):
         """
         all_funds = cache.get(config["fund_codes"])
         if all_funds is None:
-            all_funds = pd.read_parquet(f"{self.base_path}{config['fund_codes']}")
+            all_funds = pd.read_parquet(
+                f"{self.base_path}{config['fund_codes']}"
+            )
         all_funds = all_funds.to_json(orient="records")
         return json.loads(all_funds)
 
@@ -118,7 +120,9 @@ class DataLoader(BaseModel):
             benchmark = pd.read_csv(
                 f"{self.base_path}{config['sp500']}", index_col=None
             )
-        benchmark = benchmark.rename(columns={"Date": "date", "Close/Last": "market"})
+        benchmark = benchmark.rename(
+            columns={"Date": "date", "close": "market"}
+        )
         benchmark.date = pd.to_datetime(benchmark.date)
         benchmark = benchmark.sort_values(by="date").reset_index(drop=True)
         benchmark = self.backfill_ts(
@@ -143,9 +147,9 @@ class DataLoader(BaseModel):
         columns = ["date"] + fund_codes
         timeseries = cache.get(config["fund_prices"])
         if timeseries is None:
-            timeseries = pd.read_parquet(f"{self.base_path}{config['fund_prices']}")[
-                columns
-            ]
+            timeseries = pd.read_parquet(
+                f"{self.base_path}{config['fund_prices']}"
+            )[columns]
         data = self.backfill_ts(
             timeseries,
             start_date=start_date,
@@ -156,7 +160,11 @@ class DataLoader(BaseModel):
         return data
 
     def load_historical_returns(
-        self, fund_codes: List[str], start_date: str, end_date: str, frequency: str
+        self,
+        fund_codes: List[str],
+        start_date: str,
+        end_date: str,
+        frequency: str,
     ) -> pd.DataFrame:
         """
         Load historical returns for specified tickers and date
@@ -171,7 +179,9 @@ class DataLoader(BaseModel):
             pd.DataFrame:
         """
         response_columns = ["date"] + fund_codes
-        start_date = datetime.strptime(start_date, "%Y-%m-%d") - timedelta(days=1)
+        start_date = datetime.strptime(start_date, "%Y-%m-%d") - timedelta(
+            days=1
+        )
         start_date = datetime.strftime(start_date, "%Y-%m-%d")
         subset_data = pd.DataFrame(
             self.load_historical_index(
@@ -179,11 +189,13 @@ class DataLoader(BaseModel):
             )
         )
         if frequency == "monthly":
-            subset_data = subset_data[subset_data["date"].dt.is_month_end].reset_index(
-                drop=True
-            )
+            subset_data = subset_data[
+                subset_data["date"].dt.is_month_end
+            ].reset_index(drop=True)
         for i in fund_codes:
-            subset_data[f"{i}index"] = (subset_data[i] / subset_data[i].shift()) - 1
+            subset_data[f"{i}index"] = (
+                subset_data[i] / subset_data[i].shift()
+            ) - 1
         subset_data = subset_data.dropna()
         subset_data = subset_data.drop(fund_codes, axis=1)
         subset_data.columns = response_columns
@@ -211,9 +223,13 @@ class DataLoader(BaseModel):
         """
         columns = ["date"] + regression_factors + ["RF"]
 
-        factors = pd.read_parquet(f"{self.base_path}{config[f'ff_{frequency}']}")[
-            columns
-        ]
+        factors = cache.get(config[f"ff_{frequency}"])
+        if factors is None:
+            factors = pd.read_parquet(
+                f"{self.base_path}{config[f'ff_{frequency}']}"
+            )[columns]
+        factors = factors.rename(columns={"Mkt-RF": "MktRF"})
+
         data = self.backfill_ts(
             factors,
             start_date=start_date,
@@ -223,6 +239,7 @@ class DataLoader(BaseModel):
         # Kenneth French's data is off by factor of 100
         for k in columns:
             if k != "date":
+                data[k] = data[k].astype(float)
                 data[k] = data[k] / 100
         data.columns = columns
         return data
