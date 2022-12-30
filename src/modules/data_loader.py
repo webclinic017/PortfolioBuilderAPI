@@ -13,7 +13,7 @@ config = {
     "fund_prices": "01_primary/fund_prices.parquet",
     "ff_daily": "01_primary/ff_daily.parquet",
     "ff_monthly": "01_primary/ff_monthly.parquet",
-    "sp500": "01_primary/sp500.csv",
+    "sp500": "01_primary/sp500.parquet",
     "bucket_name": "aurora-361016-market-data",
 }
 
@@ -117,9 +117,7 @@ class DataLoader(BaseModel):
         """
         benchmark = cache.get(config["sp500"])
         if benchmark is None:
-            benchmark = pd.read_csv(
-                f"{self.base_path}{config['sp500']}", index_col=None
-            )
+            benchmark = pd.read_parquet(f"{self.base_path}{config['sp500']}")
         benchmark = benchmark.rename(
             columns={"Date": "date", "close": "market"}
         )
