@@ -226,7 +226,6 @@ class DataLoader(BaseModel):
             factors = pd.read_parquet(
                 f"{self.base_path}{config[f'ff_{frequency}']}"
             )[columns]
-        factors = factors.rename(columns={"Mkt-RF": "MktRF"})
 
         data = self.backfill_ts(
             factors,
