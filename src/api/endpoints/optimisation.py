@@ -42,7 +42,11 @@ def efficient_frontier(item: schemas.optimisation) -> Dict:
     fund_returns = np.mean(historical_returns.drop(columns=["date"]))
     fund_covariance = historical_returns.drop(columns=["date"]).cov()
     frontier = PortfolioOptimisation().efficient_frontier(
-        fund_returns, fund_covariance, num_portfolios, fund_codes, average_risk_free
+        fund_returns,
+        fund_covariance,
+        num_portfolios,
+        fund_codes,
+        average_risk_free,
     )
     result = {}
     result["frontier"] = frontier

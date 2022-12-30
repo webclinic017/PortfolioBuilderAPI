@@ -12,7 +12,7 @@ def test_frontier_response_code():
         json={
             "start_date": "2015-12-31",
             "end_date": "2019-12-31",
-            "funds": ["AAPL", "AMZN"],
+            "funds": ["F00000UEXJ", "F00000OOB2"],
             "num_portfolios": 2,
         },
     )
@@ -25,15 +25,17 @@ def test_frontier_three_funds():
         json={
             "start_date": "2015-12-31",
             "end_date": "2019-12-31",
-            "funds": ["AAPL", "AMZN", "AMD"],
+            "funds": ["F00000UEXJ", "F00000OJMA", "F00000OOB2"],
             "num_portfolios": 4,
         },
     )
-    assert response.json()["frontier"][0]["returns"] == pytest.approx(0.074789)
-    assert response.json()["frontier"][0]["std"] == pytest.approx(0.176781)
-    assert response.json()["frontier"][0]["portfolio_weights"]["AMD"] == 1
-    assert response.json()["frontier"][1]["returns"] == pytest.approx(0.057992)
-    assert response.json()["frontier"][1]["std"] == pytest.approx(0.126705)
-    assert response.json()["frontier"][1]["portfolio_weights"]["AAPL"] == pytest.approx(
-        0.345962
+    assert response.json()["frontier"][0]["returns"] == pytest.approx(0.013781)
+    assert response.json()["frontier"][0]["std"] == pytest.approx(0.035669)
+    assert (
+        response.json()["frontier"][0]["portfolio_weights"]["F00000OJMA"] == 1
     )
+    assert response.json()["frontier"][1]["returns"] == pytest.approx(0.011762)
+    assert response.json()["frontier"][1]["std"] == pytest.approx(0.030697)
+    assert response.json()["frontier"][1]["portfolio_weights"][
+        "F00000UEXJ"
+    ] == pytest.approx(0.142057)

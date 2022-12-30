@@ -28,7 +28,9 @@ class PortfolioOptimisation(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-    def portfolio_return(self, weights: List[float], fund_returns: pd.Series) -> float:
+    def portfolio_return(
+        self, weights: List[float], fund_returns: pd.Series
+    ) -> float:
         """
         Calculate arithmetic return of a portfolio
 
@@ -43,7 +45,10 @@ class PortfolioOptimisation(BaseModel):
         return annualised_return
 
     def optimise_std(
-        self, fund_returns: pd.Series, fund_covariance: pd.DataFrame, target: float
+        self,
+        fund_returns: pd.Series,
+        fund_covariance: pd.DataFrame,
+        target: float,
     ) -> List[float]:
         """
         Use optimisation to find portfolio with minimum std for a given return
@@ -83,7 +88,10 @@ class PortfolioOptimisation(BaseModel):
         return result
 
     def efficient_frontier_portfolios(
-        self, fund_returns: pd.Series, fund_covariance: pd.DataFrame, portfolios: int
+        self,
+        fund_returns: pd.Series,
+        fund_covariance: pd.DataFrame,
+        portfolios: int,
     ) -> List:
         """
         Find range of portfolios that lie on the efficient frontier
@@ -96,7 +104,9 @@ class PortfolioOptimisation(BaseModel):
         Returns:
             List: Portfolios that lie on the efficient frontier
         """
-        return_range = (fund_returns.max() - fund_returns.min()) / (portfolios - 1)
+        return_range = (fund_returns.max() - fund_returns.min()) / (
+            portfolios - 1
+        )
         efficient_range = []
         for i in range(portfolios):
             efficient_range.append(fund_returns.min() + return_range * i)

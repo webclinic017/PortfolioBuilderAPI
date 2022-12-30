@@ -45,7 +45,9 @@ def backtest_portfolio(item: schemas.portfolio) -> Dict:
     sp500 = DataLoader().load_benchmark(
         item.dict()["start_date"], item.dict()["end_date"]
     )
-    projection = projection.merge(sp500[["date", "market"]], how="left", on="date")
+    projection = projection.merge(
+        sp500[["date", "market"]], how="left", on="date"
+    )
     metrics = Metrics().metrics(projection)
     projection["date"] = projection["date"].dt.strftime("%Y-%m-%d")
     result = {}
