@@ -230,4 +230,7 @@ class ExpiringDict(OrderedDict):
         [self.__setitem__(key, value) for key, value in items.items()]
 
     def __copy_reduced_result(self, items):
-        [self.__setitem__(key, value, set_time) for key, (value, set_time) in items[1]]
+        [
+            self.__setitem__(key, value, set_time)
+            for key, (value, set_time) in items[1]
+        ]

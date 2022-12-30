@@ -23,7 +23,10 @@ class FactorAnalysis(BaseModel):
         arbitrary_types_allowed = True
 
     def get_summary_results(
-        self, results: RegressionResults, fund_code: str, exog_het: pd.DataFrame
+        self,
+        results: RegressionResults,
+        fund_code: str,
+        exog_het: pd.DataFrame,
     ) -> Dict:
         """
         Take the result of an statsmodel results table and transforms it into a dataframe
@@ -88,8 +91,12 @@ class FactorAnalysis(BaseModel):
         fund_returns.index.name = None
         ff_factors = ff_factors.set_index("date")
         ff_factors.index.name = None
-        regression_data = pd.concat([fund_returns, ff_factors], axis=1, join="inner")
-        regression_data[fund_code] = regression_data[fund_code] - regression_data["RF"]
+        regression_data = pd.concat(
+            [fund_returns, ff_factors], axis=1, join="inner"
+        )
+        regression_data[fund_code] = (
+            regression_data[fund_code] - regression_data["RF"]
+        )
         return regression_data
 
     def calculate_factor_regression(
@@ -108,7 +115,8 @@ class FactorAnalysis(BaseModel):
         regression_equation = " + ".join(regression_factors)
         regression_data = self.generate_features(fund_code)
         model = smf.ols(
-            formula=f"{fund_code} ~ {regression_equation}", data=regression_data
+            formula=f"{fund_code} ~ {regression_equation}",
+            data=regression_data,
         )
         results = model.fit()
         exog_het = regression_data[regression_factors + ["RF"]]
@@ -172,5 +180,7 @@ class FactorAnalysis(BaseModel):
         """
         output = []
         for i in self.fund_codes:
-            output.append(self.calculate_rolling_regression(i, self.factors, frequency))
+            output.append(
+                self.calculate_rolling_regression(i, self.factors, frequency)
+            )
         return output
