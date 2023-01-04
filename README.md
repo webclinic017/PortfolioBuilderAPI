@@ -21,21 +21,6 @@ Portfolio Builder API built using FastAPI and hosted on GCP
 - Portfolio Optimisation
     - Generate efficient frontiers to explore risk return trade offs
 
-## Get Started:
-Get started locally by creating a virtual environment via conda or venv and running:
-```
-pip install -r requirements.txt
-uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
-```
-or using docker
-```
-docker build -t aurora .
-docker run -d --name aurora -p 8000:8000 aurora
-```
-
-And view docs at: [localhost:8000/docs](localhost:8000/docs). 
-Be careful using both methods and encountering conflicts over the same port.
-
 ![img](images/docs.png)
 
 ## Technical Features:
@@ -47,4 +32,3 @@ Be careful using both methods and encountering conflicts over the same port.
 ### Continous Integration /Continious Deployment
 - [Pre-commit](https://pre-commit.com/) for identifying issues before PR
 - CI/CD using [Github Actions](https://github.com/yeungadrian/Aurora/actions)
-- CD using [Google Cloud Platform](https://cloud.google.com/appengine/) (free tier)
