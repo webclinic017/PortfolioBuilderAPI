@@ -26,7 +26,8 @@ Portfolio Builder API built using FastAPI and hosted on GCP
 ## Technical Features:
 ### Pure python
 - Uses [FastAPI](https://fastapi.tiangolo.com/)
-### Data stored on Google Cloud Storage
+### Data
+- Google Cloud Storage
 ### Automatic Tests
 - Test coverage reports using [codecov](https://about.codecov.io/) & [pytest](https://docs.pytest.org/en/7.1.x/)
 ### Continous Integration /Continious Deployment
